@@ -19,7 +19,7 @@ const TweetsPage = () => {
   const [page, setPage] = useState(PAGE);
   const [hidden, setHidden] = useState(true);
   const [fiterUsers, setFilterUsers] = useState(initialCheck);
-  const { newSetFolowing } = UserFollowHook();
+  const { toggleFollowUser, newSetFolowing } = UserFollowHook();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -69,7 +69,11 @@ const TweetsPage = () => {
     <HtmlMainMarkup>
       <section className={css.sectin_wrapper}>
         <DropDown fiterUsers={fiterUsers} handleCheck={handleCheck} />
-        <UsersList users={users} />
+        <UsersList
+          users={users}
+          newSetFolowing={newSetFolowing}
+          toggleFollowUser={toggleFollowUser}
+        />
         {hidden && fiterUsers === "" ? (
           <CustomBtn
             onClick={() => setPage((prevState) => (prevState += 1))}

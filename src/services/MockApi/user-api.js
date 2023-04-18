@@ -27,16 +27,18 @@ const usersApi = {
   },
 
   async getFollowUsers(setId) {
+    const setUser = new Set(setId);
     const { data } = await instanceUser.get(`/Users`);
-    const filteredUsers = data.filter((el) => (setId.has(el.id) ? null : el));
+    const filteredUsers = data.filter((el) => (setUser.has(el.id) ? null : el));
 
     return filteredUsers;
   },
 
   async putUsersFollow(id, value) {
-    await instanceUser.put(`/Users/${id}`, {
+    const { data } = await instanceUser.put(`/Users/${id}`, {
       followers: value,
     });
+    return data;
   },
 };
 

@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+
+import GoItImg from "../../shared/images/GoIt.svg";
+import BgImg from "../../shared/images/bgUsers.png";
+import BorderImg from "../../shared/images/borderImg.png";
 
 import CustomBtn from "../../shared/CustomBtn/CustomBtn";
 
@@ -14,37 +18,32 @@ import { FOLLOW, FOLLOWING } from "./initialFields";
 
 import css from "./UserItem.module.scss";
 
-const UserItem = ({ userEl }) => {
+const UserItem = ({ userEl, toggleFollowUser, newSetFolowing }) => {
   const { user, avatar, tweets, followers, id } = userEl;
   const [following, setFollowing] = useState(followers);
-  const { toggleFollowUser, newSetFolowing } = UserFollowHook();
+  // const { toggleFollowUser, newSetFolowing } = UserFollowHook();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     toggleFollowUser(id);
 
     if (newSetFolowing.has(id)) {
-      setFollowing(following + 1);
-      usersApi.putUsersFollow(id, following + 1);
+      const data = await usersApi.putUsersFollow(id, following + 1);
+      setFollowing(data.followers);
     } else {
-      setFollowing(following - 1);
-      usersApi.putUsersFollow(id, following - 1);
+      const data = await usersApi.putUsersFollow(id, following - 1);
+      setFollowing(data.followers);
     }
   };
   return (
     <li key={nanoid(5)} className={css.user_item}>
       <div className={css.user_block1}>
-        <img
-          lazy="true"
-          src="src\shared\images\GoIt2.svg"
-          alt="logo"
-          className={css.user_logo}
-        />
-        <img lazy="true" src="src\shared\images\bgUsers.png" alt="background" />
+        <img lazy="true" src={GoItImg} alt="logo" className={css.user_logo} />
+        <img lazy="true" src={BgImg} alt="background" />
       </div>
       <div className={css.user_imgWrapper}>
         <img
           lazy="true"
-          src="src\shared\images\borderImg.png"
+          src={BorderImg}
           alt="border"
           className={css.user_borderImg}
         />
