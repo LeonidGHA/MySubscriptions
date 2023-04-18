@@ -12,7 +12,6 @@ import {
   separationEmpty,
 } from "../../Helpers/ReworkText/reworkText";
 import usersApi from "../../services/MockApi/user-api";
-import UserFollowHook from "../../shared/hooks/UserFollowHook";
 
 import { FOLLOW, FOLLOWING } from "./initialFields";
 
@@ -21,7 +20,6 @@ import css from "./UserItem.module.scss";
 const UserItem = ({ userEl, toggleFollowUser, newSetFolowing }) => {
   const { user, avatar, tweets, followers, id } = userEl;
   const [following, setFollowing] = useState(followers);
-  // const { toggleFollowUser, newSetFolowing } = UserFollowHook();
 
   const handleClick = async () => {
     toggleFollowUser(id);
